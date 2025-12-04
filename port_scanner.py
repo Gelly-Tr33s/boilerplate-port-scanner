@@ -40,18 +40,9 @@ def get_open_ports(target, port_range, verbose = False):
         header = "PORT     SERVICE\n"
         body = ""
         for port in open_ports:
-            try:
-                service_name = socket.getservbyport(port)
-            except:
-                service_name = "unknown"
-
-        body += (
-            f"{port}"
-            + " " * (9 - len(str(port)))
-            + service_name
-        )
-        if(open_ports[len(open_ports)-1] != port):
-            body += "\n"
+            body += "{p}".format(p=port) + " "*(9-len(str(port))) + "{sn}".format(sn=socket.getservbyport(port))
+            if(open_ports[len(open_ports)-1] != port):
+                body += "\n"
         return final_string + header + body
 
     return(open_ports)
